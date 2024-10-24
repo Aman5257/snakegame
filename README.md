@@ -1,50 +1,30 @@
-# Snake Game in C++
-Snake game created using C++ and the graphics.h library.
+// DDA Line Drawing Implementation
 
-![](images/menu.jpg)
-
-![](images/in_game.png)
-
-## Snake's body created using Doubly Linked List
-![](images/snakes_body.jpg)
-
-Logic for displaying the trailing body of the snake.
-
-i)	Traverse the list till the end using next pointer.
-
-ii)	From the last node, traverse back to the head by using previous pointer, while:
-
-    head->x = head->prev->x
-    head->y = head->prev->y
-    
-iii)	Now, we are back to the head node, display the squares by traversing back to the last node through next pointer.
-
-iv)	Repeat the process till game is over, or is complete, or ESC is pressed.
-
-## Forest Fire algorithm for polygon filling
-![](images/forest_fire.jpg)
-
-Queue Data Structure implemented using Linked List was used for implementing this algorithm for polygon filling.
-
-```
-while(head){
-	r = deQueue(&head);
-	colorBool = getpixel(r->x, r->y) == colorToRemove;
-
-	if(r){ // i.e Not Null
-		putpixel(r->x, r->y, colorToAdd);
+void dda(int x0, int y0, int x1, int y1, int color)
+{
+	int i;
+	float x, y, dx, dy, steps;
+	dx = (float)(x1 - x0);
+	dy = (float)(y1 - y0);
+	if ( abs(dx) >= abs(dy) )
+	{
+		steps = abs(dx);
 	}
-	if(colorBool){
-		if(!inQueue(head, r->x+1, r->y))
-			enQueue(&head, r->x+1, r->y);
-		if(!inQueue(head, r->x-1, r->y))
-			enQueue(&head, r->x-1, r->y);
-		if(!inQueue(head, r->x, r->y+1))
-			enQueue(&head, r->x, r->y+1);
-		if(!inQueue(head, r->x, r->y-1))
-			enQueue(&head, r->x, r->y-1);
+	else
+	{
+		steps = abs(dy);
 	}
-	delete r;
+	dx = dx / steps;
+	dy = dy / steps;
+
+	x = x0;
+	y = y0;
+	i = 1;
+	while (i <= steps)
+	{
+		putpixel(x, y, color);
+		x += dx;
+		y += dy;
+		i = i + 1;
+	}
 }
-```
-
